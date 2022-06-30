@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getFirestore } from '@firebase/firestore';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCsuCPeZLc4UCyMRhKOco6eJUHRgnUUFjE',
@@ -25,3 +26,31 @@ export const signInWithGoogle = async () => {
 };
 
 export const database = getFirestore(app);
+
+const messagesCollection = collection(database, 'messages');
+
+export const getMessages = async () => {
+  const recentMessagesQuery = query(messagesCollection, orderBy('timestamp'));
+  const receiveMessages = [];
+
+  onSnapshot(recentMessagesQuery, function (snapshot) {
+    snapshot.docChanges().forEach(function (change) {
+      let message = change.doc.data();
+
+      const id = change.doc.id;
+      const timestamp = message.timestamp;
+      const name = message.name;
+      const text = message.text;
+      const profilePicture = message.profilePicUrl;
+
+      receiveMessages.push({
+        id,
+        timestamp,
+        name,
+        text,
+        profilePicture,
+      });
+    });
+  });
+  return receiveMessages;
+};
