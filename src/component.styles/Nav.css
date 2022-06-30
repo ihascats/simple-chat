@@ -1,0 +1,50 @@
+nav {
+  background-color: rgb(210, 235, 174);
+  width: 100vw;
+  height: fit-content;
+  display: grid;
+  justify-content: end;
+  align-items: center;
+
+  height: 64px;
+}
+
+.signIn > img {
+  height: 24px;
+  width: 24px;
+}
+
+.signIn {
+  height: 64px;
+  display: grid;
+  grid-template-columns: min-content max-content;
+  align-items: center;
+  gap: 16px;
+  border: none;
+  background-color: rgb(210, 235, 174);
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 24px;
+  padding: 16px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.signIn:hover {
+  background-color: rgb(152, 192, 96);
+}
+
+.user > img {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+}
+.user {
+  display: grid;
+  grid-template-columns: max-content min-content;
+  align-items: center;
+  gap: 16px;
+  font-size: 24px;
+  font-weight: 100;
+  letter-spacing: 1px;
+  padding: 8px;
+}
