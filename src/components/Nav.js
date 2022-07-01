@@ -25,7 +25,7 @@ export default function Nav() {
           {user.name}
           <img src={pencil} alt="edit" />
         </p>
-        <img src={user.picture} alt="user image" />
+        <img src={user.picture} alt="user pfp" />
       </div>,
     );
   };
@@ -38,7 +38,7 @@ export default function Nav() {
           onKeyDown={setNewName}
           className="changeName"
         ></input>
-        <img src={user.picture} alt="user image" />
+        <img src={user.picture} alt="user pfp" />
       </div>,
     );
   };

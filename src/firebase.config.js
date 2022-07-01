@@ -22,6 +22,7 @@ export const signInWithGoogle = async () => {
     return info;
   } catch (error) {
     console.log(error);
+    // some error handling i cant be bothered about right now
   }
 };
 

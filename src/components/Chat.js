@@ -29,6 +29,7 @@ export default function Chat() {
       }));
       setChatMessages(data);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const send = (event) => {

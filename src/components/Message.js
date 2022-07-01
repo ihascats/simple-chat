@@ -8,7 +8,6 @@ export default function Message({ msgData }) {
 
   const textElement = () => {
     const text = msgData.text.split(' ');
-    console.log(text);
 
     const element = (
       <p>
