@@ -4,9 +4,12 @@ import Nav from './components/Nav';
 
 function App() {
   return (
-    <div>
+    <div className="wrapper">
       <Nav />
       <Chat />
+      <footer>
+        MADE BY <a href="https://github.com/ihascats">IHASCATS</a>
+      </footer>
     </div>
   );
 }

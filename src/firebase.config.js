@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getFirestore } from '@firebase/firestore';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCsuCPeZLc4UCyMRhKOco6eJUHRgnUUFjE',
@@ -29,28 +29,39 @@ export const database = getFirestore(app);
 
 const messagesCollection = collection(database, 'messages');
 
-export const getMessages = async () => {
-  const recentMessagesQuery = query(messagesCollection, orderBy('timestamp'));
-  const receiveMessages = [];
+class CurrentUser {
+  constructor() {
+    this.name = undefined;
+    this.email = undefined;
+    this.picture = undefined;
+  }
 
-  onSnapshot(recentMessagesQuery, function (snapshot) {
-    snapshot.docChanges().forEach(function (change) {
-      let message = change.doc.data();
+  setName(name) {
+    if ((name = 'Stefan Pavlovic')) {
+      this.name = 'Syde';
+    } else {
+      this.name = name;
+    }
+  }
+  setEmail(email) {
+    this.email = email;
+  }
+  setPicture(picture) {
+    this.picture = picture;
+  }
+}
 
-      const id = change.doc.id;
-      const timestamp = message.timestamp;
-      const name = message.name;
-      const text = message.text;
-      const profilePicture = message.profilePicUrl;
+export const user = new CurrentUser();
 
-      receiveMessages.push({
-        id,
-        timestamp,
-        name,
-        text,
-        profilePicture,
-      });
+export const sendMessage = async (text) => {
+  try {
+    await addDoc(messagesCollection, {
+      name: user.name,
+      text: text,
+      profilePicUrl: user.picture,
+      timestamp: serverTimestamp(),
     });
-  });
-  return receiveMessages;
+  } catch (error) {
+    console.error('Error writing new message to Firebase Database', error);
+  }
 };

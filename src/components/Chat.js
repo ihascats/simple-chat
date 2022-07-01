@@ -1,52 +1,53 @@
 import '../component.styles/Chat.css';
 import { useEffect, useState } from 'react';
-import { getMessages } from '../firebase.config';
+import { database, sendMessage } from '../firebase.config';
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  limit,
+} from 'firebase/firestore';
+import Message from './Message';
 
 export default function Chat() {
-  const [messages, setMessages] = useState([]);
-  const [displayMessages, setDisplayMessages] = useState();
-
-  async function generateMessages() {
-    try {
-      const loadedMessages = await getMessages();
-      const copy = loadedMessages;
-      setMessages(copy);
-      console.log(1);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  function generateChat() {
-    const chatMessages = messages.map((message) => (
-      <div key={message.id}>
-        <h6>{message.name}</h6>
-        <h6>{message.timestamp}</h6>
-        <p>{message.text}</p>
-      </div>
-    ));
-
-    setDisplayMessages(chatMessages);
-  }
+  const messagesCollection = collection(database, 'messages');
+  const [chatMessages, setChatMessages] = useState([
+    { name: '...Loading', id: 0 },
+  ]);
 
   useEffect(() => {
-    generateMessages();
+    const recentMessagesQuery = query(
+      messagesCollection,
+      orderBy('timestamp', 'desc'),
+      limit(12),
+    );
+    onSnapshot(recentMessagesQuery, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setChatMessages(data);
+    });
   }, []);
 
+  const send = (event) => {
+    if (event.key !== 'Enter') return;
+    sendMessage(event.target.value);
+    event.target.value = '';
+  };
+
+  function doSomething() {
+    const wholeChat = chatMessages.map((values) => (
+      <Message key={values.id} msgData={values} />
+    ));
+    return wholeChat.reverse();
+  }
+
   return (
-    <div>
-      <div className="chat">
-        {displayMessages}
-        <button
-          onClick={() => {
-            console.log(messages, 'mskmkds');
-            generateChat();
-          }}
-        >
-          CLICK ME
-        </button>
-        <input type="text"></input>
-      </div>
+    <div className="chat">
+      <div className="chatMessages">{doSomething()}</div>
+      <input onKeyDown={send} type="text" className="sendMessage"></input>
     </div>
   );
 }

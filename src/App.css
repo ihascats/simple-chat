@@ -1,0 +1,15 @@
+footer {
+  height: 36px;
+  letter-spacing: 2px;
+  background-color: rgb(210, 235, 174);
+  display: grid;
+  grid-template-columns: max-content max-content;
+  gap: 9px;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+footer > a {
+  color: black;
+}

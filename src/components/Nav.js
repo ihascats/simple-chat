@@ -1,9 +1,9 @@
 import '../component.styles/Nav.css';
 import { useState } from 'react';
-import { signInWithGoogle } from '../firebase.config';
+import { signInWithGoogle, user } from '../firebase.config';
+import pencil from '../images/pencil.png';
 
 export default function Nav() {
-  const [user, setUser] = useState();
   const [displayInfo, setDisplayInfo] = useState();
 
   const processInformation = async (userInfo) => {
@@ -11,18 +11,42 @@ export default function Nav() {
     const name = info.user.displayName;
     const email = info.user.email;
     const userPicture = info.user.photoURL;
-    setUser({
-      name,
-      email,
-      userPicture,
-    });
+    user.setName(name);
+    user.setEmail(email);
+    user.setPicture(userPicture);
 
+    changeInfo();
+  };
+
+  const changeInfo = () => {
     setDisplayInfo(
       <div className="user">
-        <p>{name}</p>
-        <img src={userPicture} alt="user image" />
+        <p onClick={changeName}>
+          {user.name}
+          <img src={pencil} alt="edit" />
+        </p>
+        <img src={user.picture} alt="user image" />
       </div>,
     );
+  };
+
+  const changeName = () => {
+    setDisplayInfo(
+      <div className="user">
+        <input
+          type="text"
+          onKeyDown={setNewName}
+          className="changeName"
+        ></input>
+        <img src={user.picture} alt="user image" />
+      </div>,
+    );
+  };
+
+  const setNewName = (event) => {
+    if (event.key !== 'Enter') return;
+    user.setName(event.target.value);
+    changeInfo();
   };
 
   return (

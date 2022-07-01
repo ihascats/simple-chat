@@ -1,0 +1,17 @@
+.message {
+  display: grid;
+  grid-template-columns: min-content max-content;
+  gap: 16px;
+  align-items: center;
+}
+.message > img {
+  height: px;
+  width: 48px;
+  border-radius: 50%;
+}
+
+.messageText {
+  display: grid;
+  gap: 4px;
+  width: 700px;
+}
