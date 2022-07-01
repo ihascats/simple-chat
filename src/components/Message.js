@@ -13,7 +13,7 @@ export default function Message({ msgData }) {
       <p>
         {text.map((word) => {
           if (word.slice(0, 8) === 'https://') {
-            return <a href={word}>{`${word} `}</a>;
+            return <a key="link" href={word}>{`${word} `}</a>;
           } else {
             return `${word} `;
           }
