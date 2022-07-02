@@ -38,11 +38,7 @@ class CurrentUser {
   }
 
   setName(name) {
-    if ((name = 'Stefan Pavlovic')) {
-      this.name = 'Syde';
-    } else {
-      this.name = name;
-    }
+    this.name = name;
   }
   setEmail(email) {
     this.email = email;
