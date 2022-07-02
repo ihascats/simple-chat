@@ -32,13 +32,7 @@ export default function Chat() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const send = (event) => {
-    if (event.key !== 'Enter') return;
-    sendMessage(event.target.value);
-    event.target.value = '';
-  };
-
-  function doSomething() {
+  function generateChatMessages() {
     const wholeChat = chatMessages.map((values, index) => {
       if (index === 0) {
         return (
@@ -60,10 +54,29 @@ export default function Chat() {
     return wholeChat;
   }
 
+  const send = (event) => {
+    if (event.key !== 'Enter') return;
+    if (event.shiftKey) return;
+    if (event.target.value !== '') {
+      sendMessage(event.target.value);
+      event.target.value = '';
+    }
+  };
+
+  const resize = (event) => {
+    event.target.style.height = '5px';
+    event.target.style.height = event.target.scrollHeight + 'px';
+  };
+
   return (
     <div className="chat">
-      <div className="chatMessages">{doSomething()}</div>
-      <input onKeyDown={send} type="text" className="sendMessage"></input>
+      <div className="chatMessages">{generateChatMessages()}</div>
+      <textarea
+        onKeyDown={send}
+        onInput={resize}
+        type="text"
+        className="sendMessage"
+      ></textarea>
     </div>
   );
 }

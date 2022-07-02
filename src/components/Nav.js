@@ -34,6 +34,7 @@ export default function Nav() {
     setDisplayInfo(
       <div className="user">
         <input
+          maxLength="12"
           type="text"
           onKeyDown={setNewName}
           className="changeName"
@@ -45,7 +46,10 @@ export default function Nav() {
 
   const setNewName = (event) => {
     if (event.key !== 'Enter') return;
-    user.setName(event.target.value);
+    const nameLength = event.target.value.length;
+    if (nameLength < 3) return;
+
+    user.setName(event.target.value.slice(0, 12));
     changeInfo();
   };
 
