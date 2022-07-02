@@ -55,10 +55,12 @@ export default function Chat() {
   }
 
   const send = (event) => {
+    const message = event.target.value;
     if (event.key !== 'Enter') return;
     if (event.shiftKey) return;
-    if (event.target.value !== '') {
-      sendMessage(event.target.value);
+    if (message !== '') {
+      event.preventDefault();
+      sendMessage(message.replace('\n', '_nl_ '));
       event.target.value = '';
     }
   };

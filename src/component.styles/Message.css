@@ -14,4 +14,5 @@
   display: grid;
   gap: 4px;
   width: 700px;
+  white-space: pre-line;
 }

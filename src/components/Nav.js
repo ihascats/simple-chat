@@ -8,7 +8,7 @@ export default function Nav() {
 
   const processInformation = async (userInfo) => {
     const info = await userInfo;
-    const name = info.user.displayName;
+    const name = 'username';
     const email = info.user.email;
     const userPicture = info.user.photoURL;
     user.setName(name);

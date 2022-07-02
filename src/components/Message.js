@@ -14,6 +14,9 @@ export default function Message({ msgData, style }) {
         {text.map((word) => {
           if (word.slice(0, 8) === 'https://') {
             return <a key="link" href={word}>{`${word} `}</a>;
+          } else if (word.includes('_nl_')) {
+            const replaced = word.replace('_nl_', '');
+            return `${replaced}\n`;
           } else {
             return `${word} `;
           }
