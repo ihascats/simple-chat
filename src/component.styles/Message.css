@@ -2,8 +2,8 @@
   display: grid;
   grid-template-columns: min-content max-content;
   gap: 16px;
-  align-items: center;
 }
+
 .message > img {
   height: px;
   width: 48px;

@@ -1,6 +1,6 @@
 import '../component.styles/Message.css';
 
-export default function Message({ msgData }) {
+export default function Message({ msgData, style }) {
   let time = new Date().toLocaleString();
   if (msgData.timestamp) {
     time = new Date(msgData.timestamp.seconds * 1000).toLocaleString();
@@ -23,16 +23,12 @@ export default function Message({ msgData }) {
     return element;
   };
 
-  // if (word.slice(0, 8) === 'https://') {
-  //   return <a href={word}>{word}</a>;
-  // }
-
   let child;
   if (msgData.text) {
     child = textElement();
   }
   return (
-    <div className="message">
+    <div style={style || null} className="message">
       <img src={msgData.profilePicUrl} alt={`${msgData.name}'s pfp`} />
       <div className="messageText">
         <div className="messageUserInfo">

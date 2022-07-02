@@ -20,7 +20,7 @@ export default function Chat() {
     const recentMessagesQuery = query(
       messagesCollection,
       orderBy('timestamp', 'desc'),
-      limit(12),
+      limit(24),
     );
     onSnapshot(recentMessagesQuery, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
@@ -39,10 +39,25 @@ export default function Chat() {
   };
 
   function doSomething() {
-    const wholeChat = chatMessages.map((values) => (
-      <Message key={values.id} msgData={values} />
-    ));
-    return wholeChat.reverse();
+    const wholeChat = chatMessages.map((values, index) => {
+      if (index === 0) {
+        return (
+          <Message
+            style={{ marginBottom: 24 + 'px' }}
+            key={values.id}
+            msgData={values}
+          />
+        );
+      }
+      return (
+        <Message
+          style={{ marginBottom: 0 + 'px' }}
+          key={values.id}
+          msgData={values}
+        />
+      );
+    });
+    return wholeChat;
   }
 
   return (
